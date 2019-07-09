@@ -1,0 +1,185 @@
+@import './config.scss';
+
+.Carrousel {
+	box-sizing: border-box;
+	background-color: $color1;
+	width: 100%;
+	height: 30vh;
+
+	@include flxColCtr();
+	justify-content: space-between;
+	padding-top: 1vh;
+	padding-bottom: 3vh;
+	@media screen and (max-height: 500px) {
+			height: 40vh;
+    	}
+}
+
+.CarrouselShowLine {
+	width: 100%;
+	background: linear-gradient($color6, 0.1%, $color1, 99.8%, $color6);
+	@include flxRowCtr();
+}
+
+.CarrouselShowSide {
+	width: 14%;
+	height: 100%;
+	@include flxRowCtr();
+	background-color: $color1;
+		@media screen and (max-width: 500px) {
+			width: 19%;
+    	}
+}
+.CarrouselArrow {
+	width: 100%;
+	height: 3vw;
+	cursor: pointer;
+	 &:active {
+	 	transform: scale(0.95);
+	 }
+	 	@media screen and (max-width: 500px){
+			height: 20%;
+    	}
+    	@media screen and (max-height: 500px){
+			height: 30%;
+    	}
+}
+
+#CarrouselShow {
+	width: 72%;
+	height: 100%;
+	@include flxRowCtr();
+	overflow: hidden;
+		@media screen and (max-width: 500px) {
+			width: 62%;
+    	}
+}
+
+.CarrouselBox{
+	width: 22%;
+	margin: 2vh 1vw 2vh 1vw;
+	background-color: $color8;
+	filter: brightness(70%);	
+	opacity: 0.8;
+	height: 20vh;
+	flex: 0 0 22vw;
+	border-radius: 0.3vw;
+	transform: scale(0.9);
+	transition: all 0.3s linear;
+
+		@media screen and (max-width: 500px) {
+			width: 88%;
+			flex: 0 0 88%;
+    	}
+    	@media screen and (max-height: 500px) {
+			height: 27vh;
+			width: 44%;
+			flex: 0 0 44%;
+    	}
+}
+
+.CarrouselBoxInfosLine {
+	@media screen and (max-width: 500px) {
+		height: 100%;
+    }
+	@media screen and (max-height: 500px) {
+		height: 100%;
+    }
+}
+.CarrouselBoxTitle {
+	margin-left: 0.5vw;
+	text-align: left;
+	font-size: 14px;
+}
+
+.CarrouselBoxAvatar {
+	height: 5vh;
+	@media screen and (max-width: 500px) {
+			display: none;
+    	}
+    @media screen and (max-height: 500px) {
+			display: none;
+    	}
+}
+
+.CarrouselBoxOfferInfos {
+	@include flxRowCtr();
+	justify-content: space-evenly;
+	@media screen and (max-width: 500px) {
+		height: 80%;
+    	}
+	@media screen and (max-height: 500px) {
+		height: 80%;
+    	}
+}
+
+.CarrouselProfileInfos {
+	@include flxColCtr();
+	justify-content: space-evenly;
+	align-items: flex-start;
+	height: 7vh;
+	@media screen and (max-width: 500px) {
+			height: 100%;
+    	}
+    @media screen and (max-height: 500px) {
+			height: 100%;
+    	}
+}
+
+.CarrouselBoxProfileName {
+	font-size: 14px;
+}
+
+.CarrouselBoxOfferLocation {
+
+}
+
+.CarrouselBoxOfferPeriod {
+	font-size: 10px;
+}
+
+.CarrouselBoxContent {
+	@media screen and (max-width: 500px) {
+		display: none;
+    	}
+    @media screen and (max-height: 500px) {
+		display: none;
+    	}
+}
+
+.CarrouselBoxOfferContent {
+	background-color: white;
+	height: 9vh;
+	margin: 0 2.5%;
+	font-size: 14px;
+	border-radius: 0.3vw;
+}
+
+.CarrouselLeftMove {
+	transition: margin 0.3s ease-out;
+	margin-left: -65%;
+		@media screen and (max-width: 500px) {
+			margin-left: -178%;
+    	}
+    	@media screen and (max-height: 500px) {
+			margin-left: -92.5%;
+    	}
+}
+
+.CarrouselRightMove {
+	transition: margin 0.3s ease-out;
+	margin-right: -65%;
+		@media screen and (max-width: 500px) {
+			margin-right: -178%;
+    	}
+    	@media screen and (max-height: 500px) {
+			margin-right: -92.5%;
+    	}
+}
+
+.CarrouselMajorScale {
+	box-shadow: 0 0 0.8em white;
+	transform: scale(1.05);
+	filter: brightness(100%);
+	opacity: 1;
+}

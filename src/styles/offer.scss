@@ -1,0 +1,69 @@
+@import './config.scss';
+
+.OfferBox{
+	width: 40%;
+	height: 17vw;
+	margin-bottom: 5%;
+	padding: 0.4% 0.2%;
+	border-radius: 3px;
+	box-shadow: 0.2em 0.1em 0.4em black;
+	@include flxColCtr();
+	background-color: $color4;
+	justify-content: space-evenly;
+	flex: 0 0 40%;
+		@media screen and (max-width: 1050px) and (min-height: 1000px) {
+			width: 66%;
+			height: 19vh;
+			flex: 0 0 66%;
+    	}
+		@media screen and (max-width: 500px) {
+			width: 95%;
+			height: 35vh;
+			flex: 0 0 85%;
+			padding-bottom: 1.5%;
+    	}
+		@media screen and (max-height: 500px) {
+			width: 85%;
+			height: 50vh;
+			flex: 0 0 85%;
+    	}
+}
+
+.OfferBoxInfos{
+	width: 100%;
+	@include flxRowCtr();
+	justify-content: space-evenly;
+}
+
+.OfferBoxInfosAvatar{
+	height:5vw;
+		@media screen and (max-width: 500px) {
+			height: 10vw;
+    	}
+    	@media screen and (max-height: 500px) {
+			height: 8vw;
+    	}
+}
+
+.OfferBoxInfosContent{
+	width: 65%;
+	height: 100%;
+	@include flxColCtr();
+	align-items: flex-start;
+	justify-content: space-between;
+}
+
+.OfferBoxInfosOptions{
+	
+}
+
+.OfferBoxMain{
+	width: 96%;
+	height: 48%;
+	background-color: white;
+}
+
+.OfferBoxMainContent{
+	height: 80%;
+	overflow-y: scroll;
+}

@@ -1,0 +1,50 @@
+@import './config.scss';
+
+#Login {
+	margin-top: -5%;
+	height: 100vh;
+	@include flxRowCtr();
+}
+
+.FormLogin {
+	width: 20%;
+	height: 40%;
+
+		@media screen and (max-width: 1200px) {
+      		width: 25%;
+    	}
+
+    	@media screen and (max-width: 900px) {
+      		width: 30%;
+    	}
+
+    	@media screen and (max-width: 800px) {
+      		width: 40%;
+    	}
+
+		@media screen and (max-width: 500px) {
+      		width: 60%;
+    	}
+
+    	@media screen and (max-height: 1400px) {
+      		height: 25%;
+    	}
+
+    	@media screen and (max-height: 1100px) {
+      		height: 30%;
+    	}
+
+    	@media screen and (max-height: 800px) {
+      		height: 40%;
+      		margin-top: 4%;
+    	}
+
+		@media screen and (max-height: 600px) {
+      		height: 50%;
+    	}
+
+    	@media screen and (max-height: 420px) {
+      		height: 60%;
+      		margin-top: 8%;
+    	}
+}

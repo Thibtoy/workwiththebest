@@ -1,0 +1,17 @@
+@import './config.scss';
+
+* {
+	text-align: left;
+}
+
+#NewOffer {
+	margin-top: -5%;
+	height: 100vh;
+	@include flxRowCtr();
+}
+
+.FormNewOffer {
+	margin-top: 5%;
+	width: 45%;
+	height: 55vh;
+}

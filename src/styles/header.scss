@@ -1,0 +1,62 @@
+@import './config.scss';
+
+#Header {
+	@include flxColCtr();
+	width: 100%;
+	position: sticky;
+	top: 0;
+	z-index: 12;
+	text-align: center;
+	&, #NavBar, .headerTop {
+		background-color: $color4;
+	}
+
+}
+
+#NavBar {
+	text-align: center;
+	margin-top: -25px;
+	width: 100%;
+	height: 25px;
+	transition: all 0.4s ease-out;
+	box-shadow: 0 0.1em 0.4em black;
+		ul {
+			@include flxRowCtr();
+			justify-content: space-evenly;
+		}
+}
+
+.headerTop {
+	text-align: center;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 12;
+}
+
+.headerTopLi {
+	text-align: center;
+  @include flxRowCtr();
+  width: 50px;
+}
+
+.headerLi {
+	text-align: center;
+  @include flxRowCtr();
+}
+
+.Link:hover {
+	cursor: pointer;
+}
+
+.HeaderButton {
+	width: 40%;
+	padding: 4%;
+		&:active {
+			transform: scale(0.95);
+		};
+		&:hover{
+			cursor: pointer;
+		};
+}

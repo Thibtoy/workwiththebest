@@ -1,0 +1,86 @@
+@import './config.scss';
+
+#Register {
+	margin-top: -5%;
+	height: 100vh;
+	@include flxRowCtr();
+}
+
+.RegisterPathForm {
+	width: 20%;
+	height: 25%;
+
+		@media screen and (max-width: 1200px) {
+      		width: 30%;
+    	}
+
+    	@media screen and (max-width: 900px) {
+      		width: 35%;
+    	}
+
+    	@media screen and (max-width: 800px) {
+      		width: 40%;
+    	}
+
+		@media screen and (max-width: 500px) {
+      		width: 70%;
+    	}
+
+    	@media screen and (max-height: 1400px) {
+      		height: 20%;
+    	}
+
+    	@media screen and (max-height: 1100px) {
+      		height: 25%;
+    	}
+
+    	@media screen and (max-height: 800px) {
+      		height: 30%;
+      		margin-top: 4%;
+    	}
+
+		@media screen and (max-height: 600px) {
+      		height: 35%;
+    	}
+
+    	@media screen and (max-height: 420px) {
+      		height: 60%;
+      		margin-top: 8%;
+    	}
+}
+
+.RegisterForm {
+	width: 20%;
+	height: 50%;
+	min-width: 300px;
+	max-height: 450px;
+
+
+    	@media screen and (max-height: 420px) {
+    		width: 65%;
+      		height: 60%;
+      		min-height: 0;
+      		margin-top: 8%;
+    	}
+
+		@media screen and (max-height: 420px) and (max-width: 670px) {
+    		width: 80%;
+    	}
+
+    	@media screen and (max-height: 360px) {
+    		width: 80%;
+    	}
+
+    	@media screen and (max-height: 320px) {
+    		width: 85%;
+    	}
+}
+
+.RegisterInputContainer {
+	height: 60%;
+
+	    	@media screen and (max-height: 420px) {
+      		flex-direction: row;
+      		flex-wrap: wrap;
+    	}
+}

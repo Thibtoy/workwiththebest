@@ -1,0 +1,111 @@
+@import './config.scss';
+
+@mixin gridForm() {
+	display: grid;
+	grid-row-gap: 3%;
+}
+
+.Form {
+	@include flxColCtr();
+	padding: 15px;
+	justify-content: space-evenly;
+	background-color: rgba(255, 255, 255, 0.95);
+	border-radius: 10px;
+}
+
+.FormMasterFontSet {
+	color: $color2;
+	text-shadow: 1px 1px 2px $color1;
+	font-size: 2em;
+}
+
+.FormErrorFont {
+	font-size: 0.8em;
+	color: red;
+}
+
+.FormButtonRow {
+	margin-top: 10px;
+	width: 100%;
+	@include gridRow();
+}
+
+.FormButton {
+	@include flxRowCtr();
+	background-color: $color3;
+	color: white;
+	box-shadow: 2px 1.5px 1px $color1;
+	width: $buttonSize;
+	padding: 5px 0 5px 0;
+	border-radius: 5px;
+	text-align: center;
+	&:hover {
+		cursor: pointer;
+	}
+	&:active {
+		box-shadow: inset 0.5px 0.5px 1px $color1;
+	}
+}
+
+.FormRowContainer {
+	@include flxRowCtr();
+	width: 97%;
+	height: 70%;
+	justify-content: space-between;
+	align-items: flex-start;
+		.FormInputContainer {
+			width: 45%;
+		}
+}
+
+.FormInputContainer {
+	width: 80%;
+	height: 100%;
+	@include flxColCtr();
+	align-items: flex-start;
+	justify-content: space-evenly;
+}
+
+.FormGroupLabel {
+	width: auto;
+	margin: auto;
+	@include flxColCtr();
+	align-items: flex-start;
+}
+
+.FormGroupLabelCenter {
+	width: 100%;
+	@include flxColCtr();
+}
+
+.FormInput {
+	box-sizing: border-box;
+	width: 80%;
+	text-align: center;
+}
+
+.FormTextArea {
+	width: 100%;
+}
+
+.FormRadioContainer {
+	width: 100%;
+	@include flxRowCtr();
+	justify-content: space-evenly;
+}
+
+
+
+.FormSearchBox {
+	width: 100%;
+}
+
+.FormListSelection {
+	height: 5vh;
+	overflow-y: hidden;
+}
+
+.FormDropDownList {
+	width: 80%;
+  	background-color: rgba(207, 224, 252, 0.7);
+}

@@ -1,0 +1,61 @@
+@import './config.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: black;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow-X: hidden;
+}
+
+h1 {
+      @media screen and (max-width: 380px) {
+      font-size: 1.5em;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+    background-color: #F5F5F5;
+} 
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient($color4, $color5);
+}
+
+.MasterFontSet {
+  color: white;
+}
+
+.SecondFontSet {
+  color: $color2;
+}
+
+.ThirdFontSet {
+  color: $color1;
+}
+
+.ParagrapheFontSet {
+  font-size: 15px;
+}
+
+.LegendFontSet {
+  font-size: 12px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

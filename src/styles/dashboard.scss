@@ -1,0 +1,71 @@
+@import './config.scss';
+
+body {
+	background: linear-gradient(#CCCCCC, white);
+	height: auto;
+}
+
+#DashboardOffersBoard {
+	width: 85%;
+	margin: auto;
+	margin-top: 3vh;
+	background-color: white;
+	border: 1px solid #CCCCCC;
+	@media screen and (max-width: 500px) {
+			width: 95%;
+    	}
+    @media screen and (max-height: 500px) {
+			width: 75%;
+    	}
+}
+
+.DashboardFilterIcon {
+	width: 5%;
+	float: right;
+	margin: 0.75%;
+	@media screen and (max-width: 500px) {
+			width: 15%;
+    	}
+    @media screen and (max-height: 500px) {
+			width: 11%;
+    	}
+    @media screen and (max-width: 1050px){
+			width: 7vh;
+    	}
+
+}
+
+.DashboardOffersShow {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+    width: 100%;
+
+		@media screen and (max-width: 1200px) {
+    	}
+
+    	@media screen and (max-width: 900px) {
+    	}
+
+    	@media screen and (max-width: 800px) {
+    	}
+
+		@media screen and (max-width: 500px) {
+			@include flxColCtr();
+    	}
+
+    	@media screen and (max-height: 1400px) {
+    	}
+
+    	@media screen and (max-height: 1100px) {
+    	}
+
+    	@media screen and (max-height: 800px) {
+    	}
+
+		@media screen and (max-height: 600px) {
+    	}
+
+    	@media screen and (max-height: 420px) {
+    	}
+}
