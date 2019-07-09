@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const headers = {'Content-Type': 'application/json'};
-const path = 'http://localhost:8000';
+const path = 'https://evening-forest-89198.herokuapp.com';
 
 export default {
 	login: function(body){
