@@ -46,7 +46,10 @@ export default {
 
 	offersList: function(body) {
 		return axios.post(path+'/offers', body, {headers});
-	}
+	},
 
+	securityToken: function(){
+		return axios.post(path+'/securityToken', {}, {headers});
+	},
 
 }

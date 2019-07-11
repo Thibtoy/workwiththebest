@@ -10,6 +10,7 @@ export default class Login extends React.Component {
 			email: '',
 			password: '',
 			type: '',
+			securityToken: '',
 		}
 		this.handleChange.bind(this);
 		this.handleSubmit.bind(this);
@@ -17,7 +18,11 @@ export default class Login extends React.Component {
 	}
 
 	componentWillMount() {
-		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)"		
+		let that = this;
+		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)";	
+		API.securityToken()
+			.then(function(data) {that.setState({securityToken: data.data})})
+			.catch(function(err) {console.log(err)});			
 	}
 
 	handleSubmit = event => {
@@ -25,8 +30,11 @@ export default class Login extends React.Component {
 		if (this.state.email.length === 0) return;
 		if (this.state.password.length === 0) return;
 			API.login(this.state).then(function(data){
-				localStorage.setItem('token', data.data.token);
-				window.location = "/dashboard";
+				if (data.data.faillure) console.log(data.data.message);
+				else {
+					localStorage.setItem('token', data.data.token);
+					window.location = "/dashboard";
+				}
 			}, function(error){
 				console.log(error);
 				return;
