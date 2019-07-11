@@ -18,7 +18,6 @@ export default class Login extends React.Component {
 	}
 
 	componentWillMount() {
-		console.log(window.location)
 		let that = this;
 		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)";	
 		API.securityToken()

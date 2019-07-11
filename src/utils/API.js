@@ -49,7 +49,6 @@ export default {
 	},
 
 	securityToken: function(){
-		console.log(process.env)
 		return axios.post(path+'/securityToken', {}, {headers});
 	},
 
