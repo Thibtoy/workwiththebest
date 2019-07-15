@@ -57,7 +57,6 @@ export default class Carrousel extends React.Component {
 		let that = this;
 		let type = (this.props.user.role === "users")? "companies":"users";
 		API.carrouselContent({type}).then(data => {
-			console.log(data);
 			let offers = data.data.map(function(item, i){
 				item.startDate = item.startDate.slice(0, 10)+" "+item.startDate.slice(11, 19);
 				item.endDate = item.endDate.slice(0, 10)+" "+item.endDate.slice(11, 19);

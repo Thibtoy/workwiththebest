@@ -4,7 +4,7 @@ import API from '../utils/API.js';
 
 
 export default class NewOffer extends React.Component {
-	constructor() {
+	constructor() {//Déclaration des states de notre formulaire
 		super();
 		this.state = {
 			role: React.createRef(),
@@ -24,16 +24,19 @@ export default class NewOffer extends React.Component {
 			id: '',
 			head: '',
 			path: '',
+			updated: {},
+			remove: {},
 		}
 	}
 
-		handleChange = event => {
+		handleChange = event => {//Fonction qui met à jour le state de la page à chaque action sur un input de formulaire
 		this.setState({
-			[event.target.name]: event.target.value
+			[event.target.name]: event.target.value,
+			updated: {[event.target.name]: true}
 		});
 	}
 
-		onSearch = event => {
+		onSearch = event => {//Fonction qui gére la barre de recherches
 			let that = this;
 			let table = event.target.name;
 			if (event.target.value.length > 0) {
@@ -54,23 +57,36 @@ export default class NewOffer extends React.Component {
 			else this.setState({[table]: []});
 		}
 
-		onSelect = event => {
+		onSelect = event => {//A la selection d'une réponse de notre barre de recherche
 			let name = event.target.getAttribute('name');
 			let list = this.state['selected'+name.charAt(0).toUpperCase() + name.slice(1)];
 			let inner = event.target.innerHTML.split(' ');
-			let selectedBox = <p key={event.target.getAttribute('value')} value={event.target.getAttribute('value')} name={name} onClick={this.onDelete}>{inner[0] + ' ' + inner[1].slice(0, 3)})</p>
+			let selectedBox = <p key={event.target.getAttribute('value')} value={event.target.getAttribute('value')} name={name} onClick={this.onDeselect}>{inner[0] + ' ' + inner[1].slice(0, 3)})</p>
 			list[event.target.getAttribute('value')] = selectedBox;
-			this.setState({[name]: list}, () => {this.setState({[name]: []})});
+			this.setState({['selected'+name.charAt(0).toUpperCase() + name.slice(1)]: list}, () => {this.setState({[name]: []}, () => console.log(this.state))});
 		}
 
-		onDelete = event => {
+		onDeselect = event => {//A la déselection d'un item préalablement sélectionné dans notre barre de recherches.
 			let name = event.target.getAttribute('name');
 			let list = this.state['selected'+name.charAt(0).toUpperCase() + name.slice(1)];
 			delete list[event.target.getAttribute('value')];
 			this.setState({['selected'+name.charAt(0).toUpperCase() + name.slice(1)]: list});
 		}
 
-		handleSubmit = event => {
+		onKeepOrRemove = event => {//Pour supprimer/garder un lien avec un lieu ou métier lors de l'update de données
+			let remove = this.state.remove;
+			if (event.target.getAttribute('remove') === 'false') {
+				event.target.setAttribute('remove', 'true');
+				remove[event.target.getAttribute('id')] = event.target.getAttribute('name'); 
+			}
+			else {
+				event.target.setAttribute('remove', 'false');
+				delete remove[event.target.getAttribute('id')]
+			}
+			this.setState({remove});
+		}
+
+		handleSubmit = event => {//Pour soumettre le formulaire
 			delete this.state.locations;
 			delete this.state.activity;
 			delete this.state.button;
@@ -96,7 +112,7 @@ export default class NewOffer extends React.Component {
 			})
 		}
 
-		componentWillMount() {
+		componentWillMount() {//Construis la page avant de nous la montrer
 			let that = this;
 			let body = {id: this.props.match.params.id, type: this.props.user.role}
 			if (body.id) {
@@ -110,17 +126,17 @@ export default class NewOffer extends React.Component {
 						states['selectedLocations'] = [];
 						if (data.data[1].length) { 
 							data.data[1].map(function(item, i){
-								return states.selectedLocations[item.locationId] = <p key={item.locationId} value={item.locationId} name='locations' onClick={that.onDelete}>{item.name + ' ' + item.code.slice(0, 3)})</p>
+								return states.selectedLocations[item.locationId] = <p key={item.locationId} remove="false" id={item.linkId}	value={item.locationId} name='locations' onClick={that.onKeepOrRemove}>{item.name + ' ' + item.code.slice(0, 3)})</p>
 							});
 					    }
-					    else states['selectedLocations'][data.data[1].locationId] = <p key={data.data[1].locationId} value={data.data[1].locationId} name='locations' onClick={that.onDelete}>{data.data[1].name + ' ' + data.data[1].code.slice(0, 3)})</p>
+					    else states['selectedLocations'][data.data[1].locationId] = <p key={data.data[1].locationId} remove="false" id={data.data[1].linkId}	value={data.data[1].locationId} name='locations' onClick={that.onKeepOrRemove}>{data.data[1].name + ' ' + data.data[1].code.slice(0, 3)})</p>
 						states['selectedActivity'] = [];
 						if (data.data[2].length) {
 								data.data[2].map(function(item, i){
-								return states.selectedActivity[item.activityId] = <p key={item.activityId} value={item.activityId} name='activity' onClick={that.onDelete}>{item.name + ' '})</p>
+								return states.selectedActivity[item.activityId] = <p key={item.activityId} remove="false" id={item.linkId}	value={item.activityId} name='activity' onClick={that.onKeepOrRemove}>{item.name + ' '})</p>
 							});
 						}
-						else states['selectedActivity'][data.data[2].activityId] = <p key={data.data[2].activityId} value={data.data[2].activityId} name='activity' onClick={that.onDelete}>{data.data[2].name + ' '})</p> 
+						else states['selectedActivity'][data.data[2].activityId] = <p key={data.data[2].activityId} remove="false" id={data.data[2].linkId}	value={data.data[2].activityId} name='activity' onClick={that.onKeepOrRemove}>{data.data[2].name + ' '})</p> 
 						states['button'] = "Update";
 						states['role'] = this.props.user.role;
 						states['id'] = body.id;
@@ -128,7 +144,7 @@ export default class NewOffer extends React.Component {
 						states['path'] = window.location.pathname;
 						this.setState(states);						
 					})
-					.catch(err => {console.log(err)});
+					.catch(err => console.log('something went wrong'));
 			}
 			else {
 				let state = {
@@ -142,37 +158,40 @@ export default class NewOffer extends React.Component {
 					button: 'Add Offer',
 					head: 'New Offer',
 					path: window.location.pathname,
+					selectedLocations: [],
+					selectedActivity: [],
 				}
 				this.setState(state)
 			}
 		}
 
-		componentDidUpdate() {
+		componentDidUpdate() {//Pour éviter un bug d'affichage en passant d'un update d'offre à une nouvelle offre
 			if (this.state.path !== window.location.pathname) document.location.reload();
 		}
 
 		render() {
+			let state = this.state;
 		return(
 			<div id="NewOffer">
 				<form method="POST" className="Form FormNewOffer"  autoComplete="off">
-					<h3 className="FormMasterFontSet">{this.state.head}</h3>
+					<h3 className="FormMasterFontSet">{state.head}</h3>
 					<div className="FormRowContainer">
 						<div className="FormInputContainer">
 							<div className="FormGroupLabel">
                 				<label htmlFor="title">Title</label>
-                				<input className="FormInput" name="title" type="title" value={this.state.title} onChange={this.handleChange}/>
+                				<input className="FormInput" name="title" type="title" value={state.title} onChange={this.handleChange}/>
                 			</div>
                 			<div className="FormGroupLabel">
                 				<label htmlFor="content">Content</label>
-                				<textarea className="FormTextArea" name="content" type="text" value={this.state.content} onChange={this.handleChange}/>
+                				<textarea className="FormTextArea" name="content" type="text" value={state.content} onChange={this.handleChange}/>
                 			</div>
                 			<div className="FormGroupLabel">
                 				<label htmlFor="startDate">Start Date:</label>
-                				<input className="FormInput" name="startDate" type="date" value={this.state.startDate} onChange={this.handleChange}/>
+                				<input className="FormInput" name="startDate" type="date" value={state.startDate} onChange={this.handleChange}/>
                 			</div>
                 			<div className="FormGroupLabel">	
                 				<label htmlFor="endDate">End Date:</label>
-                				<input className="FormInput" name="endDate" type="date" value={this.state.endDate} onChange={this.handleChange}/>
+                				<input className="FormInput" name="endDate" type="date" value={state.endDate} onChange={this.handleChange}/>
                 			</div>
                 		</div>
                 		<div className="FormInputContainer">
@@ -180,21 +199,21 @@ export default class NewOffer extends React.Component {
                 				<label htmlFor="research" type="text">Location</label>
                 				<div className="FormSearchBox">
                 					<input className="FormInput" name="locations" type="text" placeholder="Search a location" onChange={this.onSearch} />
-                					<div id="locationList" className="FormDropDownList" name="locationList">{this.state.locations}</div>
+                					<div id="locationList" className="FormDropDownList" name="locationList">{state.locations}</div>
                					</div>
-               					<div id="Location" className="FormListSelection">{this.state.selectedLocations}</ div>
+               					<div id="Location" className="FormListSelection">{state.selectedLocations}</ div>
                 			</div>
                 			<div className="FormGroupLabel">
                 				<label htmlFor="research" type="text">Activity</label>
                 				<div className="FormSearchBox">
                 					<input className="FormInput" name="activity" type="text" placeholder="Search an activity" onChange={this.onSearch} />
-                					<div id="activityList" className="FormDropDownList" name="activityList">{this.state.activity}</div>
+                					<div id="activityList" className="FormDropDownList" name="activityList">{state.activity}</div>
                					</div>
-               					<div id="Activity" className="FormListSelection">{this.state.selectedActivity}</ div>
+               					<div id="Activity" className="FormListSelection">{state.selectedActivity}</ div>
                 			</div>
                 		</div>
                 	</div>
-                	<div className="FormButton" onClick={this.handleSubmit}>{this.state.button}</div>
+                	<div className="FormButton" onClick={this.handleSubmit}>{state.button}</div>
 				</form>
 			</div>
 		)

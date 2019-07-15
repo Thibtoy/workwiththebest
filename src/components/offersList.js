@@ -19,7 +19,7 @@ export default class OffersList extends React.Component {
 					if (data.data.length) {
 					 	offers = data.data.map(function(item, i){
 							return (
-								<div>{item.title} - startDate: {item.startDate.slice(0,11)} 
+								<div key={i}>{item.title} - startDate: {item.startDate.slice(0,11)} 
 								endDate: {item.endDate.slice(0,11)} <Link to={'/offers/'+item.id}>GO</Link></div>
 							);
 						});
@@ -27,7 +27,7 @@ export default class OffersList extends React.Component {
 					}
 					else {
 						offers.push(
-							<div>{data.data.title} - startDate: {data.data.startDate.slice(0,11)} 
+							<div key='1'>{data.data.title} - startDate: {data.data.startDate.slice(0,11)} 
 							endDate: {data.data.endDate.slice(0,11)} <Link to={'/offers/'+data.data.id}>GO</Link></div>
 							)
 						this.setState({offers});
