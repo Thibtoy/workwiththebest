@@ -28,8 +28,8 @@ export default class NewOffer extends React.Component {
 			updated: {},
 			remove: {},
 			loaded: false,
-
 		}
+		this.Mount = this.Mount.bind(this);
 	}
 
 		handleChange = event => {//Fonction qui met à jour le state de la page à chaque action sur un input de formulaire
@@ -117,7 +117,7 @@ export default class NewOffer extends React.Component {
 			});
 		}
 
-		componentWillMount() {//Construis la page avant de nous la montrer
+		Mount() {//Construis la page avant de nous la montrer
 			let that = this;
 			let body = {id: this.props.match.params.id, type: this.props.user.role}
 			if (body.id) {
@@ -172,8 +172,12 @@ export default class NewOffer extends React.Component {
 			}
 		}
 
+		componentWillMount() {
+			this.Mount();
+		}
+
 		componentDidUpdate() {//Pour éviter un bug d'affichage en passant d'un update d'offre à une nouvelle offre
-			if (this.state.path !== window.location.pathname) document.location.reload();
+			if (this.state.path !== window.location.pathname) this.Mount();
 		}
 
 		render() {
