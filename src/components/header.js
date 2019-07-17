@@ -35,10 +35,6 @@ export default class Header extends Component {
 		window.location = "/login";
 	}
 
-	refresh = event => {
-		document.location.reload();
-	}
-
 	componentDidUpdate() {
 		if (this.props.logged && !this.state.logged) {
 			this.allowMenu();
@@ -60,9 +56,9 @@ export default class Header extends Component {
 					</ul>
 					<nav id="NavBar">
 						<ul>
-							<li className="headerLi" onClick={this.refresh}><h4><Link className="MasterFontSet" to="/dashboard">Dashboard</Link></h4></li>
-							<li className="headerLi" onClick={this.refresh}><h4><Link className="MasterFontSet" to="/newOffer">New Offer</Link></h4></li>
-							<li className="headerLi" onClick={this.refresh}><h4><Link className="MasterFontSet" to="/offers">Yours Offers</Link></h4></li>
+							<li className="headerLi"><h4><Link className="MasterFontSet" to="/dashboard">Dashboard</Link></h4></li>
+							<li className="headerLi"><h4><Link className="MasterFontSet" to="/newOffer">New Offer</Link></h4></li>
+							<li className="headerLi"><h4><Link className="MasterFontSet" to="/offers">Yours Offers</Link></h4></li>
 						</ul>
 					</nav>
 				</header>
