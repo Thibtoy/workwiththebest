@@ -15,8 +15,8 @@ export default class OffersList extends React.Component {
 	deleteOffer = event => {//AJOUTER CONSTRAINT ON CASCADE SUR LA BDD EN PRODUCTION (sur les tables de liaisons entre les offres et lea activité/villes)
 		let body = {type: this.state.type, id: event.target.getAttribute('id')};
 		API.deleteOffer(body)
-			.then(data => console.log(data))
-			.catch(err => console.log(err));
+			.then(data => window.location.reload())
+			.catch(err => window.location.pathname = '/redirection/fail');
 	}
 
 	componentWillMount() {
