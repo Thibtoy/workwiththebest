@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/newOffer.scss';
 import API from '../utils/API.js';
+import Loading from './loading.js';
 
 
 export default class NewOffer extends React.Component {
@@ -26,6 +27,8 @@ export default class NewOffer extends React.Component {
 			path: '',
 			updated: {},
 			remove: {},
+			loaded: false,
+
 		}
 	}
 
@@ -144,6 +147,7 @@ export default class NewOffer extends React.Component {
 						states['id'] = body.id;
 						states['head'] = 'Update Offer';
 						states['path'] = window.location.pathname;
+						states['loaded'] = true;
 						this.setState(states);						
 					})
 					.catch(err => window.location.pathname = '/redirection/other');
@@ -151,8 +155,8 @@ export default class NewOffer extends React.Component {
 			else {
 				let state = {
 					role: this.props.user.role,
-					title: '',
-					content: '',
+					title: 'Title',
+					content: 'Content',
 					startDate: '',
 					endDate: '',
 					ownerId: this.props.user.id,
@@ -162,6 +166,7 @@ export default class NewOffer extends React.Component {
 					path: window.location.pathname,
 					selectedLocations: [],
 					selectedActivity: [],
+					loaded: true,
 				}
 				this.setState(state)
 			}
@@ -173,6 +178,7 @@ export default class NewOffer extends React.Component {
 
 		render() {
 			let state = this.state;
+		if (this.state.loaded) {
 		return(
 			<div id="NewOffer">
 				<form method="POST" className="Form FormNewOffer"  autoComplete="off">
@@ -219,5 +225,7 @@ export default class NewOffer extends React.Component {
 				</form>
 			</div>
 		)
+	}
+	else return(<Loading />)
 	}
 }
