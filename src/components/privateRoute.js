@@ -1,6 +1,7 @@
 import React from 'react';
 import API from '../utils/API.js';
 import {Route} from 'react-router-dom';
+import Loading from './loading.js';
 
 export default class PrivateRoute extends React.Component{
 	constructor() {
@@ -15,8 +16,11 @@ export default class PrivateRoute extends React.Component{
 	componentWillMount() {
 		let that = this;
 		API.isAuth()
-			.then(data => {that.setState({logged: true,
-			 loaded: true, user: data.data.user});})
+			.then(data => {
+				if (data.data.token) localStorage.setItem('token', data.data.token);
+				that.props.logged(true);
+				that.setState({logged: true, loaded: true, user: data.data.user});
+			})
 			.catch(err => {that.setState({loaded: true})});
 	}
 	
@@ -24,9 +28,9 @@ export default class PrivateRoute extends React.Component{
 		const {logged, loaded, user} = this.state;
 		if (loaded) {
 			if(logged) return (<Route path={this.props.path}  
-				render={(props) => <this.props.component {...props} user={user} />} />)
-			else return window.location = '/login';
+				render={(props) => <this.props.component {...props} {...this.props} user={user} />} />)
+			else return window.location = '/redirection/notLogged';
 		}
-		else return null;
+		else return <Loading />;
 	}	
 }

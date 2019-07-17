@@ -16,8 +16,16 @@ export default {
 	},
 
 	isAuth: function(){
-			let token = localStorage.getItem('token');
-			return axios.post(path+'/authenticated', {token}, {headers: headers})
+		return new Promise(function(resolve, reject) {
+				let token = localStorage.getItem('token');
+				if (token) {
+					axios.post(path+'/authenticated', {token}, {headers: headers})
+						 .then(data => resolve(data))
+						 .catch(err => reject(err));
+				}
+				else reject('error');
+			})
+			
 	},
 
 	logOut: function(){
@@ -46,6 +54,10 @@ export default {
 
 	offersList: function(body) {
 		return axios.post(path+'/offers', body, {headers});
+	},
+
+	deleteOffer: function(body) {
+		return axios.delete(path+'/deleteOffer', {data: body}, {headers});
 	},
 
 	securityToken: function(){

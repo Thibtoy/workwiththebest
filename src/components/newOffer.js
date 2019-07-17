@@ -77,10 +77,12 @@ export default class NewOffer extends React.Component {
 			let remove = this.state.remove;
 			if (event.target.getAttribute('remove') === 'false') {
 				event.target.setAttribute('remove', 'true');
+				event.target.classList.add('ToRemove');
 				remove[event.target.getAttribute('id')] = event.target.getAttribute('name'); 
 			}
 			else {
 				event.target.setAttribute('remove', 'false');
+				event.target.classList.remove('ToRemove');
 				delete remove[event.target.getAttribute('id')]
 			}
 			this.setState({remove});
@@ -92,24 +94,24 @@ export default class NewOffer extends React.Component {
 			delete this.state.button;
 			let selectedLocations = {};
 			this.state.selectedLocations.forEach(function(item){
-			if (item.key) selectedLocations[item.key] = {id: item.key};
-			else return;
+				if (item.key && !item.props.remove) selectedLocations[item.key] = {id: item.key};
 			})
 			let selectedActivity = {};
 			this.state.selectedActivity.forEach(function(item){
-			if (item.key) selectedActivity[item.key] = {id: item.key};
-			else return; 
+				if (item.key && !item.props.remove) selectedActivity[item.key] = {id: item.key};
 			})
 			this.setState({locationsList: selectedLocations, activityList: selectedActivity}, () => {
 				delete this.state.selectedLocations;
 				delete this.state.selectedActivity;
 				if (this.props.match.params.id){
-					API.updateOffer(this.state).then(data => {console.log(data)});
+					API.updateOffer(this.state)
+						.then(() => window.location.pathname = '/redirection/update')
+						.catch(() => window.location.reload());
 				}
 				else API.addOffer(this.state)
-						.then(data => {console.log(data)})
-						.catch(err => {console.log(err)});
-			})
+						.then(() => window.location.pathname = '/redirection/create')
+						.catch(() => window.location.pathname = '/redirection/fail');
+			});
 		}
 
 		componentWillMount() {//Construis la page avant de nous la montrer
@@ -126,17 +128,17 @@ export default class NewOffer extends React.Component {
 						states['selectedLocations'] = [];
 						if (data.data[1].length) { 
 							data.data[1].map(function(item, i){
-								return states.selectedLocations[item.locationId] = <p key={item.locationId} remove="false" id={item.linkId}	value={item.locationId} name='locations' onClick={that.onKeepOrRemove}>{item.name + ' ' + item.code.slice(0, 3)})</p>
+								return states.selectedLocations[item.locationId] = <p key={item.locationId} remove="false" id={item.linkId}	value={item.locationId} name='Location' onClick={that.onKeepOrRemove}>{item.name + ' ' + item.code.slice(0, 3)})</p>
 							});
 					    }
-					    else states['selectedLocations'][data.data[1].locationId] = <p key={data.data[1].locationId} remove="false" id={data.data[1].linkId}	value={data.data[1].locationId} name='locations' onClick={that.onKeepOrRemove}>{data.data[1].name + ' ' + data.data[1].code.slice(0, 3)})</p>
+					    else if (data.data[1]) states['selectedLocations'][data.data[1].locationId] = <p key={data.data[1].locationId} remove="false" id={data.data[1].linkId}	value={data.data[1].locationId} name='Location' onClick={that.onKeepOrRemove}>{data.data[1].name + ' ' + data.data[1].code.slice(0, 3)})</p>
 						states['selectedActivity'] = [];
 						if (data.data[2].length) {
 								data.data[2].map(function(item, i){
-								return states.selectedActivity[item.activityId] = <p key={item.activityId} remove="false" id={item.linkId}	value={item.activityId} name='activity' onClick={that.onKeepOrRemove}>{item.name + ' '})</p>
+								return states.selectedActivity[item.activityId] = <p key={item.activityId} remove="false" id={item.linkId}	value={item.activityId} name='Activity' onClick={that.onKeepOrRemove}>{item.name + ' '})</p>
 							});
 						}
-						else states['selectedActivity'][data.data[2].activityId] = <p key={data.data[2].activityId} remove="false" id={data.data[2].linkId}	value={data.data[2].activityId} name='activity' onClick={that.onKeepOrRemove}>{data.data[2].name + ' '})</p> 
+						else if (data.data[2]) states['selectedActivity'][data.data[2].activityId] = <p key={data.data[2].activityId} remove="false" id={data.data[2].linkId}	value={data.data[2].activityId} name='Activity' onClick={that.onKeepOrRemove}>{data.data[2].name + ' '})</p> 
 						states['button'] = "Update";
 						states['role'] = this.props.user.role;
 						states['id'] = body.id;
@@ -144,7 +146,7 @@ export default class NewOffer extends React.Component {
 						states['path'] = window.location.pathname;
 						this.setState(states);						
 					})
-					.catch(err => console.log('something went wrong'));
+					.catch(err => window.location.pathname = '/redirection/other');
 			}
 			else {
 				let state = {

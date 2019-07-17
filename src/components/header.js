@@ -12,8 +12,10 @@ export default class Header extends Component {
 				menu: false,
 				pageName: '',
 				menuImg: process.env.PUBLIC_URL+'/images/hamburger.svg',
-				menuImgActive: process.env.PUBLIC_URL+'/images/hamburgerActive.svg', 
+				menuImgActive: process.env.PUBLIC_URL+'/images/hamburgerActive.svg',
+				logged: false, 
 		}
+		this.allowMenu = this.allowMenu.bind(this);
 	}
 
 	menuClick = event => {
@@ -37,16 +39,23 @@ export default class Header extends Component {
 		document.location.reload();
 	}
 
-	componentWillMount() {
-		let header;
-		if(this.tcheckLocation())	header = [<header key="1" id="Header"><h1 className="MasterFontSet">WorkWithTheBest</h1></header>];
-		else {
-			
-			header = [
+	componentDidUpdate() {
+		if (this.props.logged && !this.state.logged) {
+			this.allowMenu();
+		}
+	}
+
+	allowMenu() {
+		this.setState({logged: true});
+	}
+
+	render() {
+		if (this.state.logged) {
+			return(
 				<header key="1" id="Header">
 					<ul className="headerTop">
 						<li id="hamburgerMenu" className="headerTopLi" onClick={this.menuClick}><img className="HeaderButton" src={process.env.PUBLIC_URL+'/images/hamburger.svg'} alt="ButtonImage"></img></li>
-						<li className="headerTopLi"><h1 className="MasterFontSet">WorkWithTheBest</h1></li>
+						<li className="headerTopLi"><h1 className="MasterFontSet"><Link className="MasterFontSet" to="/dashboard">WorkWithTheBest</Link></h1></li>
 						<li id="onOffButton" className="headerTopLi" onClick={this.disconnect}><img className="HeaderButton" src={process.env.PUBLIC_URL+'/images/standby.svg'} alt="ButtonImage"></img></li>
 					</ul>
 					<nav id="NavBar">
@@ -57,18 +66,8 @@ export default class Header extends Component {
 						</ul>
 					</nav>
 				</header>
-			]
+			)
 		}
-		this.setState({header});
-	}
-
-	tcheckLocation() {
-		let path = window.location.pathname;
-		if (path === '/' || path.match('/register') || path.match('/login') != null) return true;
-		else return false;
-	}
-
-	render() {
-		return(this.state.header);
+		else return (<header key="1" id="Header"><Link className="MasterFontSet" to="/"><h1 className="MasterFontSet">WorkWithTheBest</h1></Link></header>)
 	}
 }
