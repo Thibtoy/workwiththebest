@@ -19,6 +19,8 @@ export default class Dashboard extends React.Component {
 	componentWillMount(){
 		let that = this;
 		let type = (this.props.user.role === "users")? "companies":"users";
+		document.body.style.background = 'linear-gradient(#CCCCCC, white)';
+		document.body.style.height = 'auto';
 		API.carrouselContent({type}).then(data => {
 			let offers = data.data.map(function(item, i){
 				item.startDate = item.startDate.slice(0, 10)+" "+item.startDate.slice(11, 19);

@@ -21,6 +21,8 @@ export default class OffersList extends React.Component {
 
 	componentWillMount() {
 		let that = this;
+		document.body.style.background = 'linear-gradient(#CCCCCC, white)';
+		document.body.style.height = '100vh';
 		this.setState({ownerId: this.props.user.id, type: this.props.user.role}, () => {
 			API.offersList(this.state)
 				.then(data => {

@@ -19,7 +19,8 @@ export default class Login extends React.Component {
 
 	componentWillMount() {
 		let that = this;
-		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)";	
+		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)";
+		document.body.style.backgroundSize = "cover";	
 		API.securityToken()
 			.then(function(data) {that.setState({securityToken: data.data})})
 			.catch(function(err) {console.log(err)});			

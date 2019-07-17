@@ -32,6 +32,12 @@ export default class Redirection extends React.Component {
 		window.history.back();
 	}
 
+	componentWillMount() {
+		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)";
+		document.body.style.height = '100vh';
+		document.body.style.backgroundSize = 'cover';
+	}
+
 	render() {		
 		let view = this.load();		
 		return(

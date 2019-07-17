@@ -7,7 +7,8 @@ import '../styles/register.scss';
 export default class Register extends Component{
 
 	componentWillMount() {
-		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)";		
+		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)";	
+		document.body.style.backgroundSize = 'cover';	
 	}
 
 	render() {

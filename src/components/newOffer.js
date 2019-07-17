@@ -92,6 +92,7 @@ export default class NewOffer extends React.Component {
 		}
 
 		handleSubmit = event => {//Pour soumettre le formulaire
+			this.setState({loaded: false}, () => {
 			delete this.state.locations;
 			delete this.state.activity;
 			delete this.state.button;
@@ -115,6 +116,7 @@ export default class NewOffer extends React.Component {
 						.then(() => window.location.pathname = '/redirection/create')
 						.catch(() => window.location.pathname = '/redirection/fail');
 			});
+		});
 		}
 
 		Mount() {//Construis la page avant de nous la montrer
@@ -174,6 +176,8 @@ export default class NewOffer extends React.Component {
 
 		componentWillMount() {
 			this.Mount();
+			document.body.style.background = 'linear-gradient(#CCCCCC, white)';
+			document.body.style.height = '100vh';
 		}
 
 		componentDidUpdate() {//Pour éviter un bug d'affichage en passant d'un update d'offre à une nouvelle offre

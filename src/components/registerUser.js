@@ -21,6 +21,7 @@ export default class RegisterUser extends Component {
 
 	componentWillMount() {
 		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"../images/background.jpg)";
+		document.body.style.backgroundSize = 'cover';
 	}
 
 	handleSubmit = event => {

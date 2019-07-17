@@ -1,5 +1,5 @@
 import React from 'react';
-//import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import '../styles/Form.scss';
 import '../styles/homePage.scss';
 
@@ -7,6 +7,7 @@ export default class HomePage extends React.Component {
 
 	componentDidMount() {
 		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)";
+		document.body.style.backgroundSize = 'cover';
 	}
 
 	redirect = event => {
@@ -26,8 +27,8 @@ export default class HomePage extends React.Component {
 					now to fully enjoy your navigation!</p>
 					<div className="FormButtonContainer">
 						<div className="FormButtonRow">
-							<div className='FormButton' onClick={this.redirect}>Register</div>
-							<div className='FormButton' onClick={this.redirect}>Login</div>
+							<Link to='/register' className='FormButton'>Register</Link>
+							<Link to='/login' className='FormButton'>Login</Link>
 						</div>
 						<div className="FormButtonRow">
 							<div className='FormButton'>Visit</div>
