@@ -15,6 +15,7 @@ export default class PrivateRoute extends React.Component{
 
 	componentWillMount() {
 		let that = this;
+		document.body.style.background = 'linear-gradient(#CCCCCC, white)';
 		API.isAuth()
 			.then(data => {
 				if (data.data.token) localStorage.setItem('token', data.data.token);
