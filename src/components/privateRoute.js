@@ -1,6 +1,6 @@
 import React from 'react';
 import API from '../utils/API.js';
-import {Route} from 'react-router-dom';
+import {Route, Redirect} from 'react-router-dom';
 import Loading from './loading.js';
 
 export default class PrivateRoute extends React.Component{
@@ -29,7 +29,7 @@ export default class PrivateRoute extends React.Component{
 		if (loaded) {
 			if(logged) return (<Route path={this.props.path}  
 				render={(props) => <this.props.component {...props} {...this.props} user={user} />} />)
-			else return window.location = '/redirection/notLogged';
+			else return <Redirect to='Redirection/notLogged' />;
 		}
 		else return <Loading />;
 	}	
