@@ -119,6 +119,7 @@ export default class NewOffer extends React.Component {
 
 		Mount() {//Construis la page avant de nous la montrer
 			let that = this;
+			that.setState({loaded: false}, () => {
 			let body = {id: this.props.match.params.id, type: this.props.user.role}
 			if (body.id) {
 				API.getOffer(body)
@@ -170,6 +171,7 @@ export default class NewOffer extends React.Component {
 				}
 				this.setState(state)
 			}
+		});
 		}
 
 		componentWillMount() {
