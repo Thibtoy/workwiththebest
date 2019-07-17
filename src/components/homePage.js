@@ -5,7 +5,7 @@ import '../styles/homePage.scss';
 
 export default class HomePage extends React.Component {
 
-	componentDidMount() {
+	componentWillMount() {
 		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)";
 		document.body.style.backgroundSize = 'cover';
 	}
