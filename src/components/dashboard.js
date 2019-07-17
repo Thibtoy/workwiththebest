@@ -1,7 +1,8 @@
 import React from 'react';
 import Carrousel from './carrousel.js';
 import Offer from './offer.js';
-import API from '../utils/API.js'
+import API from '../utils/API.js';
+import Loading from './loading.js';
 
 import '../styles/dashboard.scss';
 
@@ -10,6 +11,8 @@ export default class Dashboard extends React.Component {
 		super(props);
 		this.state = {
 			offers : [],
+			carrouselLoaded: false,
+			offersLoaded: false,
 		}
 	}
 
@@ -27,11 +30,12 @@ export default class Dashboard extends React.Component {
 				}
 				return(<Offer key={i} data={item} />)
 			});
-			that.setState({offers});
+			that.setState({offers, offersLoaded: true});
 		});
 	}
 
 	render() {
+	if (this.state.offersLoaded) {
 		return(
 			<div id="Dashboard">
 				<Carrousel user={this.props.user} />
@@ -43,5 +47,7 @@ export default class Dashboard extends React.Component {
 				</div>
 			</div>
 		)
+	}
+	else return <Loading />
 	}
 }
