@@ -19,7 +19,7 @@ export default class PrivateRoute extends React.Component{
 		API.isAuth()
 			.then(data => {
 				if (data.data.token) localStorage.setItem('token', data.data.token);
-				that.props.logged(true);
+				that.props.logged(true, data.data.user.role);
 				that.setState({logged: true, loaded: true, user: data.data.user});
 			})
 			.catch(err => {that.setState({loaded: true})});

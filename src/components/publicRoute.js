@@ -17,7 +17,7 @@ export default class PublicRoute extends React.Component{
 		API.isAuth()
 			.then(data => {
 				if (data.data.token) localStorage.setItem('token', data.data.token);
-				that.props.logged(true);
+				that.props.logged(true, data.data.user.role);
 				that.setState({loaded: true});
 			})
 			.catch(() => {that.setState({loaded: true})});

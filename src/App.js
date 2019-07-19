@@ -21,17 +21,18 @@ export default class App extends Component {
     super();
     this.state = {
       logged: false,
+      role: '',
     }
   }
 
-  handleLogged = (logged) => {;
-    this.setState({logged});
+  handleLogged = (logged, role) => {;
+    this.setState({logged, role});
   }
 
   render() {
     return (
       <div className="App">
-      <Header logged={this.state.logged}/>
+      <Header data={this.state}/>
         <div id="App-content">
           <Switch>
             <PublicRoute exact path="/" component={HomePage} logged={this.handleLogged} />

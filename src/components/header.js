@@ -36,7 +36,7 @@ export default class Header extends Component {
 	}
 
 	componentDidUpdate() {
-		if (this.props.logged && !this.state.logged) {
+		if (this.props.data.logged && !this.state.logged && this.props.data.role !== 'visitor') {
 			this.allowMenu();
 		}
 	}
