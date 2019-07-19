@@ -1,6 +1,6 @@
 import React from 'react';
 import API from '../utils/API.js';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 export default class OffersList extends React.Component {
 	constructor() {
@@ -9,6 +9,7 @@ export default class OffersList extends React.Component {
 			ownerId: '',
 			type: '',
 			offers: [],
+			redirect:[],
 		}
 	}
 
@@ -20,6 +21,7 @@ export default class OffersList extends React.Component {
 	}
 
 	componentWillMount() {
+		if (this.props.user.logged){
 		let that = this;
 		document.body.style.background = 'linear-gradient(#CCCCCC, white)';
 		document.body.style.height = '100vh';
@@ -46,9 +48,11 @@ export default class OffersList extends React.Component {
 				})
 				.catch(err => console.log(err));
 		});
+		}
+		else this.setState({redirect: [<Redirect key='1' to='../redirection/notLogged' />]});
 	}
 
 	render () {
-		return(<div>{this.state.offers}</div>);
+		return(<div>{this.state.offers}{this.state.redirect}</div>);
 	}
 }

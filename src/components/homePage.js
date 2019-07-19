@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import '../styles/Form.scss';
 import '../styles/homePage.scss';
+import API from '../utils/API.js';
 
 export default class HomePage extends React.Component {
 
@@ -10,8 +11,12 @@ export default class HomePage extends React.Component {
 		document.body.style.backgroundSize = 'cover';
 	}
 
-	redirect = event => {
-		window.location = '/' + event.target.innerHTML.toLowerCase();
+	anonymVisit = event => {
+		API.anonym()
+			.then(data => {
+				localStorage.setItem('token', data.data);
+			})
+			.catch();
 	}
 
 	render() {
@@ -31,7 +36,7 @@ export default class HomePage extends React.Component {
 							<Link to='/login' className='FormButton'>Login</Link>
 						</div>
 						<div className="FormButtonRow">
-							<div className='FormButton'>Visit</div>
+							<div className='FormButton' onClick={this.anonymVisit}>Visit</div>
 						</div>
 					</div>
 				</div>

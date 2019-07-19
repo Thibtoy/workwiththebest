@@ -8,6 +8,10 @@ export default {
 		return axios.post(path+'/login', body, {headers: headers});
 	},
 
+	anonym: function(body){
+		return axios.post(path+'/anonymVisit', body, {headers: headers});
+	},
+
 	signUp: function(body){
 		delete body.password2;
 		delete body.filled;
@@ -34,6 +38,10 @@ export default {
 
 	carrouselContent: function(body){
 		return axios.post(path+'/carrousel', body, {headers});
+	},
+
+	dashboard: function(body) {
+		return axios.post(path+'/dashboard', body, {headers});
 	},
 
 	wordResearch: function(body) {

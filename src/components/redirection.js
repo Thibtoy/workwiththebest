@@ -19,7 +19,11 @@ export default class Redirection extends React.Component {
 				]);
 			case 'notLogged': return ([
 					<p key="1">You need to be authenticate to access this page</p>, 
-					<Link key="2" className="FormButton" to="/login">Ok</Link>
+					<div key="2" className="FormButton" to="/login" onClick={this.goBack}>Ok</div>
+				]);
+			case 'notOwner': return ([
+					<p key="1">This offer don't belongs to you</p>, 
+					<Link key="2" className="FormButton" to="/offers">Ok</Link>
 				]);
 			default: return ([
 					<p key="1">This page does not seems to exist</p>, 

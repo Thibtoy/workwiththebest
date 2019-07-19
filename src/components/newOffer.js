@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/newOffer.scss';
 import API from '../utils/API.js';
 import Loading from './loading.js';
+import {Redirect} from 'react-router-dom';
 
 
 export default class NewOffer extends React.Component {
@@ -28,6 +29,8 @@ export default class NewOffer extends React.Component {
 			updated: {},
 			remove: {},
 			loaded: false,
+			redirect: [],
+			access: true,
 		}
 		this.Mount = this.Mount.bind(this);
 	}
@@ -122,9 +125,10 @@ export default class NewOffer extends React.Component {
 		Mount() {//Construis la page avant de nous la montrer
 			let that = this;
 			let body = {id: this.props.match.params.id, type: this.props.user.role}
-			if (body.id) {
+			if (body.id && this.state.access) {
 				API.getOffer(body)
 					.then( (data) => {
+						if (data.data[0].ownerId === this.props.user.id){
 						let states = {}
 						for (let prop in data.data[0]) {
 							data.data[0][prop] = (prop === "startDate" || prop === "endDate")? data.data[0][prop].slice(0, 10): data.data[0][prop];
@@ -150,7 +154,9 @@ export default class NewOffer extends React.Component {
 						states['head'] = 'Update Offer';
 						states['path'] = window.location.pathname;
 						states['loaded'] = true;
-						this.setState(states);						
+						this.setState(states);
+						}
+						else that.setState({redirect: [<Redirect key='1' to='../redirection/notOwner' />], access: false});						
 					})
 					.catch(err => window.location.pathname = '/redirection/other');
 			}
@@ -175,9 +181,12 @@ export default class NewOffer extends React.Component {
 		}
 
 		componentWillMount() {
-			this.Mount();
-			document.body.style.background = 'linear-gradient(#CCCCCC, white)';
-			document.body.style.height = '100vh';
+			if (this.props.user.logged) {
+				this.Mount();
+				document.body.style.background = 'linear-gradient(#CCCCCC, white)';
+				document.body.style.height = '100vh';
+			}
+			else this.setState({redirect: [<Redirect key='1' to='../redirection/notLogged' />]})
 		}
 
 		componentDidUpdate() {//Pour éviter un bug d'affichage en passant d'un update d'offre à une nouvelle offre
@@ -231,9 +240,15 @@ export default class NewOffer extends React.Component {
                 	</div>
                 	<div className="FormButton" onClick={this.handleSubmit}>{state.button}</div>
 				</form>
+				{this.state.redirect}
 			</div>
-		)
-	}
-	else return(<Loading />)
+		);
+		}
+		else return(
+			<div>
+				<Loading />
+				{this.state.redirect}
+			</div>
+		);		
 	}
 }

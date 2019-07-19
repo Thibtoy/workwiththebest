@@ -30,7 +30,7 @@ export default class PrivateRoute extends React.Component{
 		if (loaded) {
 			if(logged) return (<Route path={this.props.path}  
 				render={(props) => <this.props.component {...props} {...this.props} user={user} />} />)
-			else return <Redirect to='Redirection/notLogged' />;
+			else return <Redirect to='redirection/notLogged' />;
 		}
 		else return <Loading />;
 	}	
