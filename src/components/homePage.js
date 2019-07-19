@@ -5,6 +5,13 @@ import '../styles/homePage.scss';
 import API from '../utils/API.js';
 
 export default class HomePage extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			redirect: [],
+		}
+		this.anonymVisit = this.anonymVisit.bind(this);
+	}
 
 	componentWillMount() {
 		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)";
@@ -12,9 +19,11 @@ export default class HomePage extends React.Component {
 	}
 
 	anonymVisit = event => {
+		let that = this;
 		API.anonym()
 			.then(data => {
 				localStorage.setItem('token', data.data);
+				that.setState({redirect: [<Redirect key='1' to='dashboard' />]});
 			})
 			.catch();
 	}
@@ -40,6 +49,7 @@ export default class HomePage extends React.Component {
 						</div>
 					</div>
 				</div>
+				{this.state.redirect}
 			</div>
 			)
 	}
