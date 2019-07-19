@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import '../styles/Form.scss';
 import '../styles/homePage.scss';
 import API from '../utils/API.js';
