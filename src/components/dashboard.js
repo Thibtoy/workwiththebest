@@ -18,7 +18,6 @@ export default class Dashboard extends React.Component {
 	}
 
 	componentWillMount(){
-		console.log(this.props);
 		let type = this.props.user.role;
 		document.body.style.background = 'linear-gradient(#CCCCCC, white)';
 		document.body.style.height = 'auto';
