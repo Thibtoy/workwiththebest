@@ -4,8 +4,8 @@ import '../styles/offer.scss';
 export default class Offer extends React.Component {
 	render() {
 		const item = this.props.data;
-		let location = (item.locations)? [<p key='1' className="ParagrapheFontSet">{item.locations.location}</p>] : [<p key='1' className="ParagrapheFontSet">-</p>];
-		let activity = (item.activity)? [<p key='1' className="ParagrapheFontSet">{item.activity.activity}</p>] : [<p key='1' className="ParagrapheFontSet">-</p>];
+		let location = (item.locationsname)? [<p key='1' className="ParagrapheFontSet">{item.locationsname}</p>] : [<p key='1' className="ParagrapheFontSet">-</p>];
+		let activity = (item.activityname)? [<p key='1' className="ParagrapheFontSet">{item.activityname}</p>] : [<p key='1' className="ParagrapheFontSet">-</p>];
 		return(
 			<div className="OfferBox">
 				<h5 className="MasterFontSet">{item.title}</h5>

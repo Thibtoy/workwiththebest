@@ -22,10 +22,17 @@ body {
     	}
 }
 
+#InputList {
+    width: 100%;
+    margin: auto;
+    @include flxRowCtr();
+    justify-content: space-evenly;
+}
+
 .DashboardFilterIcon {
 	width: 5%;
-	float: right;
-	margin: 0.75%;
+    flex: 0 0;
+    z-index: 12;
 	@media screen and (max-width: 500px) {
 			width: 15%;
     	}
@@ -35,7 +42,6 @@ body {
     @media screen and (max-width: 1050px){
 			width: 7vh;
     	}
-
 }
 
 .DashboardOffersShow {

@@ -36,9 +36,11 @@ export default class NewOffer extends React.Component {
 	}
 
 		handleChange = event => {//Fonction qui met à jour le state de la page à chaque action sur un input de formulaire
+		let updated = this.state.updated
+		updated[event.target.name] = true;
 		this.setState({
 			[event.target.name]: event.target.value,
-			updated: {[event.target.name]: true}
+			updated
 		});
 	}
 

@@ -15,7 +15,6 @@ export default class Header extends Component {
 				menuImgActive: process.env.PUBLIC_URL+'/images/hamburgerActive.svg',
 				logged: false, 
 		}
-		this.allowMenu = this.allowMenu.bind(this);
 	}
 
 	menuClick = event => {
@@ -37,12 +36,8 @@ export default class Header extends Component {
 
 	componentDidUpdate() {
 		if (this.props.data.logged && !this.state.logged && this.props.data.role !== 'visitor') {
-			this.allowMenu();
+			this.setState({logged: true});
 		}
-	}
-
-	allowMenu() {
-		this.setState({logged: true});
 	}
 
 	render() {

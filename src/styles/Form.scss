@@ -64,6 +64,8 @@
 	@include flxColCtr();
 	align-items: flex-start;
 	justify-content: space-evenly;
+	flex: 0 0;
+	z-index: 10;
 }
 
 .FormGroupLabel {
@@ -80,7 +82,7 @@
 
 .FormInput {
 	box-sizing: border-box;
-	width: 80%;
+	width: 100%;
 	text-align: center;
 }
 
@@ -97,7 +99,7 @@
 
 
 .FormSearchBox {
-	width: 100%;
+	width: 200px;
 }
 
 .FormListSelection {
@@ -106,6 +108,7 @@
 }
 
 .FormDropDownList {
-	width: 80%;
+	position: absolute;
+	width: 200px;
   	background-color: rgba(207, 224, 252, 0.7);
 }
