@@ -57,7 +57,7 @@ export default class Login extends React.Component {
 	render() {
 		return(
 			<div id="Login">
-				<form method="POST" className="Form FormLogin">
+				<form method="POST" className="Form FormLogin" onSubmit={this.handleSubmit}>
 					<h3 className="FormMasterFontSet">Login</h3>
 					<div className="FormInputContainer">
 						<div className="FormRadioContainer">
@@ -79,7 +79,7 @@ export default class Login extends React.Component {
                 			<input id="password" name="password" type="password" value={this.state.password} onChange={this.handleChange}/>
                 		</div>
                 	</div>
-                	<div className="FormButton" onClick={this.handleSubmit}>Connexion</div>
+                	<input className="FormButton" type="submit" value="Connection"/>
 				</form>
 			</div>
 		)

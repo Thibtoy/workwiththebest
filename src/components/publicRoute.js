@@ -10,7 +10,6 @@ export default class PublicRoute extends React.Component{
 			loaded: false,
 		}
 	}
-
 	componentWillMount() {
 		let that = this;
 		document.body.style.background = 'linear-gradient(#CCCCCC, white)';
@@ -21,8 +20,7 @@ export default class PublicRoute extends React.Component{
 				that.setState({loaded: true});
 			})
 			.catch(() => {that.setState({loaded: true})});
-	}
-	
+	}	
 	render() {
 		const {loaded} = this.state;
 		if (loaded) { 

@@ -1,124 +1,71 @@
 import React from 'react';
+import API from '../utils/API.js';
 import Carrousel from './carrousel.js';
 import Offer from './offer.js';
-import API from '../utils/API.js';
+import SearchBar from './searchBar.js';
+import Filter from './filter.js';
 import Loading from './loading.js';
-
 import '../styles/dashboard.scss';
 
 export default class Dashboard extends React.Component {
-	constructor(props){
-		super(props);
+	constructor(){
+		super();
 		this.state = {
-			offers : [],
 			carrouselLoaded: false,
 			offersLoaded: false,
-			where: {
-				active: 1,
-				'locations.id': [],
-				'activity.id': [],
-				'districts.id': [],
-				'activityTitle.id': [],
-			},
+			visibleFilters: false,
+			workin: true,
+			key: 0,
+			filtersKey: 0,
 			filters: {
 				'locations.id': [],
 				'activity.id': [],
 				'districts.id': [],
 				'activityTitle.id': [],
 			},
-			locations: [],			
-			activity: [],
-			districts: [],
-			activityTitle: [],
-			key: 0,
-			filtersKey: 0,
+			offers: [],
+			selectedFilters: [],
 		}
-		this.fillDashboard = this.fillDashboard.bind(this);
-		this.switchConditions = this.switchConditions.bind(this);
+		this.removeFilter = this.removeFilter.bind(this);
+		this.onFilter = this.onFilter.bind(this);
 	}
 
-	componentWillMount(){
-		document.body.style.background = 'linear-gradient(#CCCCCC, white)';
-		document.body.style.height = 'auto';
-		this.switchConditions();	
+	filtersAppear = event => {// Déclenche l'apparition/disparition du menu des filtres
+		if (this.state.workin) {
+			let target = event.target.parentNode.parentNode.childNodes[0];
+			this.setState({workin: false}, () => this.fadeInOut(target, this));
+		}		
 	}
 
-	onSearch = event => {//Fonction qui gére la barre de recherches
-		let that = this;
-			let table = event.target.name;
-			if (event.target.value.length > 0) {
-			API.wordResearch({table: table, word: event.target.value})
-			.then(data => {
-				if(!data.data.length) data.data = [data.data];
-				let response = data.data.map(function(item, i){
-					if (item.code) return(<p key={i} value={item.id} name={table+'.id'} onClick={that.onSelect}>{item.name}-({item.code})</p>);
-					else return(<p key={i} value={item.id} name={table+'.id'} onClick={that.onSelect}>{item.name}</p>);
-				});
-				this.setState({[table]: response});
-			})
-			.catch();
-			}
-			else this.setState({[table]: []});
-		}
-
-	onSelect = event => {
-		let state = this.state;
-		let target = event.target 
-		state.filters[target.getAttribute('name')].push(
-			<div key={state.filtersKey} entry={target.getAttribute('value')} name={target.getAttribute('name')} onClick={this.removeFilter}>
-				{target.innerHTML}
-			</div>
-			);
-		state.filters[target.getAttribute('name')].forEach(function(item){
-			if (state.where[item.props.name].indexOf(item.props.entry) === -1) state.where[item.props.name].push(item.props.entry); 
-		});
-		state.filtersKey++
-		this.setState(state, () => {
-			this.switchConditions();
-		});		
+	fadeInOut(target, that) {// Animation vers la visibilité, pui enclenche le déroulement des filtres
+		let filters = document.getElementById('SelectedFilters');
+		(that.state.visibleFilters)? 
+			that.setState({visibleFilters: false}, () => {
+				filters.classList.add('SelectedFiltersDropdown')
+				setTimeout(() => that.filtersDropdown(true, target, that), 500)
+			}) :
+			that.setState({visibleFilters: true}, () => {
+				target.classList.add('FilterBarVisible');				 
+				setTimeout(() => that.filtersDropdown(false, filters, that), 500)				
+			});
 	}
 
-	removeFilter = event => {
-		let state = this.state;
-		let target = event.target;
-		let index = state.where[target.getAttribute('name')].indexOf(target.getAttribute('entry'));
-		state.where[target.getAttribute('name')].splice(index, 1);
-		state.filters[target.getAttribute('name')].forEach(function(item, i){
-			if (item.props.name === target.getAttribute('name') && item.props.entry === target.getAttribute('entry')){
-				state.filters[target.getAttribute('name')].splice(i, 1);
-			}
-		});
-		this.setState(state, () => {
-			this.switchConditions()
-		});
+	filtersDropdown(condition, target, that) {//Déroulement des filtres
+		(condition)? target.classList.remove('FilterBarVisible') : target.classList.remove('SelectedFiltersDropdown');
+		setTimeout(() => that.setState({workin: true}), 500)
 	}
 
-	switchConditions() {
-		let type = this.props.user.role;
-		switch (type) {
-				case 'users': return this.fillDashboard({tables: ['companies'], where: this.state.where});
-				case 'companies': return this.fillDashboard({tables: ['users'], where: this.state.where});
-				default: return this.fillDashboard({tables: ['users', 'companies'], where: this.state.where});
-			}
-	}
-
-	fillDashboard(body) {
-		let that = this;
-		let key = this.state.key;
+	fillDashboard(body, that) {//Fais la requête avec les filtres passés en options, pour selectionner les offres à afficher.
+		let key = that.state.key;
 		API.dashboard(body).then(res => {
 			if (res.data) {
 				let offers = res.data.map(function(item){
 					if (item) {
-						if (!item.length) item = [item];
 						return item.map(function(item, i){
-							item.startDate = item.startDate.slice(0, 10)+" "+item.startDate.slice(11, 19);
-							item.endDate = item.endDate.slice(0, 10)+" "+item.endDate.slice(11, 19);
-							if (!item.name) {
-								item.name = item.firstName+' '+item.lastName;
-								delete item.firstName;
-								delete item.lastName;
-							}
-						return(<Offer key={i} data={item} />)
+							item.startDate = item.startDate.slice(0, 10);
+							item.endDate = item.endDate.slice(0, 10);
+							if (!item.name) item.name = item.firstName+' '+item.lastName;
+							return(<Offer key={i} data={item} />)
 						});
 					}
 					else {
@@ -132,66 +79,75 @@ export default class Dashboard extends React.Component {
 		.catch();	
 	}
 
-	render() {
-	if (this.state.offersLoaded) {
-		let state = this.state;
-		let filters = [];
-		for (let field in state.filters){
-			let filter = state.filters[field].map(function(item){
-				return [item];
-			});
-			filters.push(filter);
+	switchConditions(that) {//Fonction conditionnelle pour appeller la fction précedente avec differents paramètres. 
+		let filters = that.state.filters;
+		let where = {active: 1};
+		for (let filter in filters) where[filter] = filters[filter].map(item => item.props.entry);
+		switch (that.props.user.role) {
+			case 'users': return that.fillDashboard({tables: ['companies'], where}, that);
+			case 'companies': return that.fillDashboard({tables: ['users'], where}, that);
+			default: return that.fillDashboard({tables: ['users', 'companies'], where}, that);
 		}
-		let test = [
-			<div key={1} className="FormGroupLabel">
-                <label htmlFor="research" type="text">Location</label>
-                <div className="FormSearchBox">
-                	<input className="FormInput" name="locations" type="text" placeholder="Search a location" onChange={this.onSearch} />
-                	<div id="locationList" className="FormDropDownList" name="locationList">{state.locations}</div>
-               	</div>
-            </div>
-		]
-		return(
-			<div id="Dashboard">
-				<Carrousel user={this.props.user} />
-				<div id="DashboardOffersBoard">
-					<div id="InputList">
-						<div className="FormInputContainer">
-                			{test}
-                			<div className="FormGroupLabel">
-                				<label htmlFor="research" type="text">Activity</label>
-                				<div className="FormSearchBox">
-                					<input className="FormInput" name="activity" type="text" placeholder="Search an activity" onChange={this.onSearch} />
-                					<div id="activityList" className="FormDropDownList" name="activityList">{state.activity}</div>
-               					</div>
+	}
+
+	onFilter(filter) {//Ajoutes un filtre et appelle switchCondition(lié aux components <SearchBar />)
+		let state = this.state;		
+		state.filters[filter.name].push(
+			<Filter key={state.filtersKey} inner={filter.inner} entry={filter.value} name={filter.name} onRemove={this.removeFilter} />
+		);
+		state.filtersKey++;
+		this.setState(state, () => this.switchConditions(this));	
+	}
+
+	removeFilter(filter) {//Retires un filtre et appelle switchCondition(lié au component <Filter />)
+		let state = this.state;
+		state.filters[filter.name].forEach(function(item, i){
+			if (item.props.name === filter.name && item.props.entry === filter.entry) state.filters[filter.name].splice(i, 1);
+		});
+		this.setState(state, () => this.switchConditions(this));
+	}
+
+	componentWillMount(){//Monte la page, appelle switchCondition pour afficher des offres avec 0 fitres définits.
+		document.body.style.background = 'linear-gradient(#CCCCCC, white)';
+		document.body.style.height = 'auto';
+		this.switchConditions(this);	
+	}
+
+	render() {
+		let state = this.state;
+		if (state.offersLoaded) {
+			let filters = [];
+			for (let field in state.filters){//Pour chaque propriété de l'objet filters du state,  
+				let filter = state.filters[field].map(item => [item]);
+				filters.push(filter);//On push les balises filtres dans un tableau filters, qu'on utilise dans le return.
+			}
+			return(
+				<div id="Dashboard">
+					<Carrousel user={this.props.user} />
+					<div id="DashboardOffersBoard">
+						<div className="DashboardTop">
+							<div id="InputList">
+								<div className="FilterBar">
+									<div className="FormInputContainer">
+                						<SearchBar label='Location' name='locations' pldr='Search a location' func={this.onFilter} />
+                						<SearchBar label='Activity' name='activity' pldr='Search an activity' func={this.onFilter} />
+                					</div>
+                					<div className="FormInputContainer">
+                						<SearchBar label='District' name='districts' pldr='Search a district' func={this.onFilter} />
+                						<SearchBar label='Activity type' name='activityTitle' pldr='Search an activity type' func={this.onFilter} />
+                					</div>
+                				</div>
+                				<div className="FilterBox">
+									<img className="DashboardFilterIcon" src={process.env.PUBLIC_URL+'/images/filter.svg'} alt="FilterImage" onClick={this.filtersAppear}></img>
+								</div>                	
                 			</div>
+                			<div id="SelectedFilters" className="SelectedFiltersDropdown">{filters}</div>
                 		</div>
-                		<div className="FormInputContainer">
-                			<div className="FormGroupLabel">
-                				<label htmlFor="research" type="text">District</label>
-                				<div className="FormSearchBox">
-                					<input className="FormInput" name="districts" type="text" placeholder="Search a district" onChange={this.onSearch} />
-                					<div id="districtList" className="FormDropDownList" name="districtList">{state.districts}</div>
-               					</div>
-                			</div>
-                			<div className="FormGroupLabel">
-                				<label htmlFor="research" type="text">Activity type</label>
-                				<div className="FormSearchBox">
-                					<input className="FormInput" name="activityTitle" type="text" placeholder="Search a activity type" onChange={this.onSearch} />
-                					<div id="activityTitleList" className="FormDropDownList" name="activityTitleList">{state.activityTitle}</div>
-               					</div>
-                			</div>
-                		</div>
-						<img className="DashboardFilterIcon" src={process.env.PUBLIC_URL+'/images/filter.svg'} alt="FilterImage"></img>
-                	</div>
-                	<div id="SelectedFilters">{filters}</div>
-					<div className="DashboardOffersShow">
-						{state.offers}
+						<div className="DashboardOffersShow">{state.offers}</div>
 					</div>
 				</div>
-			</div>
-		)
-	}
-	else return <Loading />
+			);
+		}
+		else return <Loading />
 	}
 }

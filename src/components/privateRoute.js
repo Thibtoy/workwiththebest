@@ -12,7 +12,6 @@ export default class PrivateRoute extends React.Component{
 			user: '',
 		}
 	}
-
 	componentWillMount() {
 		let that = this;
 		document.body.style.background = 'linear-gradient(#CCCCCC, white)';
@@ -23,8 +22,7 @@ export default class PrivateRoute extends React.Component{
 				that.setState({logged: true, loaded: true, user: data.data.user});
 			})
 			.catch(err => {that.setState({loaded: true})});
-	}
-	
+	}	
 	render() {
 		const {logged, loaded, user} = this.state;
 		if (loaded) {
