@@ -45,7 +45,7 @@ export default class SearchBar extends React.Component {
 			<div className="FormGroupLabel">
                 <label htmlFor="research" type="text">{props.label}</label>
                 <div className="FormSearchBox">
-                	<input className="FormInput" name={props.name} type="text" placeholder={props.pldr} onChange={this.onSearch} />
+                	<input className="FormInput" name={props.name} type="text" placeholder={props.pldr} onChange={this.onSearch} autoComplete="off" />
                 	<div id={props.id} className="FormDropDownList" name={props.list || 'list'}>{this.state.list}</div>
                	</div>
             </div>

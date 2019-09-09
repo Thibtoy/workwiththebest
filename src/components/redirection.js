@@ -13,6 +13,18 @@ export default class Redirection extends React.Component {
 					<p key="1">Created successfully</p>, 
 					<Link key="2" className="FormButton" to="/offers">Ok</Link>
 				]);
+			case 'registeredSuccessfully': return([
+					<p key="1">Registered Successfully</p>,
+					<p key="2">Please check your email to activate your account</p>,
+					<Link key="3" className="FormButton" to="/login">Ok</Link>
+
+				]);
+			case 'activatedSuccessfully': return([
+					<p key="1">activated Successfully</p>,
+					<p key="2">Congratulations, your account has been activated</p>,
+					<Link key="3" className="FormButton" to="/login">Ok</Link>
+
+				]);
 			case 'fail': return ([
 					<p key="1">Something Went Wrong Please Try Again</p>, 
 					<div key="2" className="FormButton" onClick={this.goBack}>Ok</div>
@@ -36,20 +48,14 @@ export default class Redirection extends React.Component {
 		window.history.back();
 	}
 
-	componentWillMount() {
-		document.body.style.backgroundImage = "url("+ process.env.PUBLIC_URL +"images/background.jpg)";
-		document.body.style.height = '100vh';
-		document.body.style.backgroundSize = 'cover';
-	}
-
 	render() {		
 		let view = this.load();		
 		return(
-			<div id="redirection">
+			<div id="Redirection">
 				<div className="Form RedirectionForm">
 					{view}
 				</div>
 			</div>
-			)
+		)
 	}
 }

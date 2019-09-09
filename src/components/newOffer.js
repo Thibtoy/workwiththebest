@@ -4,6 +4,7 @@ import API from '../utils/API.js';
 import Loading from './loading.js';
 import {Redirect} from 'react-router-dom';
 import SearchBar from './searchBar.js';
+import Input from './input.js';
 
 export default class NewOffer extends React.Component {
 	constructor() {//Déclaration des states de notre formulaire
@@ -32,12 +33,13 @@ export default class NewOffer extends React.Component {
 		}
 		this.Mount = this.Mount.bind(this);
 		this.onSelect = this.onSelect.bind(this);
+		this.input = this.input.bind(this);
 	}
 
-	handleChange = event => {//Fonction qui met à jour le state de la page à chaque action sur un input de formulaire
-		let updated = this.state.updated
-		updated[event.target.name] = true;
-		this.setState({[event.target.name]: event.target.value, updated});
+	input(input) {
+		let updated = this.state.updated;
+		updated[input.name] = true;
+		this.setState({[input.name]: input.value, updated}, () => console.log(this.state));
 	}
 
 	onSelect(selected) {//A la selection d'une réponse de notre barre de recherche
@@ -175,22 +177,10 @@ export default class NewOffer extends React.Component {
 						<h3 className="FormMasterFontSet">{state.head}</h3>
 						<div className="FormRowContainer">
 							<div className="FormInputContainer">
-								<div className="FormGroupLabel">
-                					<label htmlFor="title">Title</label>
-                					<input className="FormInput" name="title" type="title" value={state.title} onChange={this.handleChange}/>
-                				</div>
-                				<div className="FormGroupLabel">
-                					<label htmlFor="content">Content</label>
-                					<textarea className="FormTextArea" name="content" type="text" value={state.content} onChange={this.handleChange}/>
-                				</div>
-                				<div className="FormGroupLabel">
-                					<label htmlFor="startDate">Start Date:</label>
-                					<input className="FormInput" name="startDate" type="date" value={state.startDate} onChange={this.handleChange}/>
-                				</div>
-                				<div className="FormGroupLabel">	
-                					<label htmlFor="endDate">End Date:</label>
-                					<input className="FormInput" name="endDate" type="date" value={state.endDate} onChange={this.handleChange}/>
-                				</div>
+								<Input name="title" label="Title:" type="text" plcdr="Enter a title" value={state.title} func={this.input} />
+								<Input name="content" label="Content:" type="text-area" plcdr="Enter a content" value={state.content} func={this.input} />
+								<Input name="startDate" label="Start Date:" type="date"  value={state.startDate} func={this.input} />
+								<Input name="endDate" label="End Date:" type="date"  value={state.endDate} func={this.input} />
                 			</div>
                 			<div className="FormInputContainer">
                 				<SearchBar label='Location' name='locations' pldr='Search a location' func={this.onSelect} /> 

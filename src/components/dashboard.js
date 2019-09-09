@@ -6,6 +6,7 @@ import SearchBar from './searchBar.js';
 import Filter from './filter.js';
 import Loading from './loading.js';
 import '../styles/dashboard.scss';
+import Input from './input.js';
 
 export default class Dashboard extends React.Component {
 	constructor(){
@@ -13,7 +14,7 @@ export default class Dashboard extends React.Component {
 		this.state = {
 			carrouselLoaded: false,
 			offersLoaded: false,
-			visibleFilters: false,
+			visibleFilters: true,
 			workin: true,
 			key: 0,
 			filtersKey: 0,
@@ -22,6 +23,8 @@ export default class Dashboard extends React.Component {
 				'activity.id': [],
 				'districts.id': [],
 				'activityTitle.id': [],
+				'startDate': [],
+				'endDate': [],
 			},
 			offers: [],
 			selectedFilters: [],
@@ -91,7 +94,11 @@ export default class Dashboard extends React.Component {
 	}
 
 	onFilter(filter) {//Ajoutes un filtre et appelle switchCondition(lié aux components <SearchBar />)
-		let state = this.state;		
+		let state = this.state;
+		if (filter.name === 'startDate' || filter.name === 'endDate') {
+			filter.inner = filter.name+': '+filter.value;
+			state.filters[filter.name] = [];
+		}		
 		state.filters[filter.name].push(
 			<Filter key={state.filtersKey} inner={filter.inner} entry={filter.value} name={filter.name} onRemove={this.removeFilter} />
 		);
@@ -127,21 +134,25 @@ export default class Dashboard extends React.Component {
 					<div id="DashboardOffersBoard">
 						<div className="DashboardTop">
 							<div id="InputList">
-								<div className="FilterBar">
+								<div className="FilterBar FilterBarVisible">
 									<div className="FormInputContainer">
-                						<SearchBar label='Location' name='locations' pldr='Search a location' func={this.onFilter} />
-                						<SearchBar label='Activity' name='activity' pldr='Search an activity' func={this.onFilter} />
+                						<SearchBar label='Location:' name='locations' pldr='Search a location' func={this.onFilter} />
+                						<SearchBar label='Activity:' name='activity' pldr='Search an activity' func={this.onFilter} />
                 					</div>
                 					<div className="FormInputContainer">
-                						<SearchBar label='District' name='districts' pldr='Search a district' func={this.onFilter} />
-                						<SearchBar label='Activity type' name='activityTitle' pldr='Search an activity type' func={this.onFilter} />
+                						<SearchBar label='District:' name='districts' pldr='Search a district' func={this.onFilter} />
+                						<SearchBar label='Activity type:' name='activityTitle' pldr='Search an activity type' func={this.onFilter} />
+                					</div>
+                					<div className="FormInputContainer">
+                						<Input name="startDate" label="Start after:" type="date"  value={state.startDate} func={this.onFilter} />
+										<Input name="endDate" label="End before:" type="date"  value={state.endDate} func={this.onFilter} />
                 					</div>
                 				</div>
                 				<div className="FilterBox">
 									<img className="DashboardFilterIcon" src={process.env.PUBLIC_URL+'/images/filter.svg'} alt="FilterImage" onClick={this.filtersAppear}></img>
 								</div>                	
                 			</div>
-                			<div id="SelectedFilters" className="SelectedFiltersDropdown">{filters}</div>
+                			<div id="SelectedFilters">{filters}</div>
                 		</div>
 						<div className="DashboardOffersShow">{state.offers}</div>
 					</div>

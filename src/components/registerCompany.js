@@ -38,7 +38,7 @@ export default class RegisterCompany extends Component {
 				if (this.state.password === this.state.password2) {
 					API.signUp(this.state).then(function(response){
 						if (response.data.created) {
-							window.location = "/login";	
+							window.location = "/redirection/registeredSuccessfully";	
 						}
 						else return that.setState({errorMessage: response.data.message})
 					});					

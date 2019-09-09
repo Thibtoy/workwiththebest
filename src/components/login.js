@@ -57,7 +57,7 @@ export default class Login extends React.Component {
 	render() {
 		return(
 			<div id="Login">
-				<form method="POST" className="Form FormLogin" onSubmit={this.handleSubmit}>
+				<form method="POST" onSubmit={this.handleSubmit} className="Form FormLogin">
 					<h3 className="FormMasterFontSet">Login</h3>
 					<div className="FormInputContainer">
 						<div className="FormRadioContainer">
